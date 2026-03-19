@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Viaje | Yeni</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <h1>¿Por qué pasar estas vacaciones y dejar que me encargue?</h1>
+        <button class="btn-start" onclick="startApp()">Ver la propuesta</button>
+    </div>
+
+    <div id="app-window">
+        <div id="map-side">
+            <div id="map-canvas">
+                <svg>
+                    <path id="p-tun-bog" class="route-path" d="M 300 60 L 280 180" />
+                    <path id="p-bog-baq" class="route-path" d="M 280 180 C 350 250, 400 320, 350 400" />
+                    <path id="p-baq-ctg" class="route-path" d="M 350 400 Q 280 390, 150 480" />
+                    <path id="p-ctg-baq" class="route-path" d="M 150 480 Q 280 390, 350 400" />
+                </svg>
+
+                <div id="v-bus" class="vehicle">
+                    <svg viewBox="0 0 24 24" fill="#c5a059"><path d="M19,15H5V13.5H19M16.5,18A1.5,1.5 0 0,1 15,16.5A1.5,1.5 0 0,1 16.5,15A1.5,1.5 0 0,1 18,16.5A1.5,1.5 0 0,1 16.5,18M7.5,18A1.5,1.5 0 0,1 6,16.5A1.5,1.5 0 0,1 7.5,15A1.5,1.5 0 0,1 9,16.5A1.5,1.5 0 0,1 7.5,18M18,11H6V6H18M19.7,7C19.5,5.1 18,3.5 16,3.1L15.3,3H8.7L8,3.1C6,3.5 4.5,5.1 4.3,7L4,11V18A2,2 0 0,0 6,20H7V21A1,1 0 0,0 8,22H9A1,1 0 0,0 10,21V20H14V21A1,1 0 0,0 15,22H16A1,1 0 0,0 17,21V20H18A2,2 0 0,0 20,18V11L19.7,7Z" /></svg>
+                </div>
+                <div id="v-plane" class="vehicle">
+                    <svg viewBox="0 0 24 24" fill="#0077b6"><path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/></svg>
+                </div>
+
+                <div id="tunja" class="dot" onclick="go('tunja')"><span class="label">Tunja</span></div>
+                <div id="bogota" class="dot" onclick="go('bogota')"><span class="label">Bogotá</span></div>
+                <div id="baq" class="dot" onclick="go('baq')"><span class="label">Barranquilla</span></div>
+                <div id="ctg" class="dot" onclick="go('ctg')"><span class="label">Cartagena</span></div>
+            </div>
+        </div>
+
+        <div id="info-side">
+            <div id="msg-init">
+                <span class="tagline">Propuesta</span>
+                <h2>¿Te animas?</h2>
+                <p class="desc">He estado pensando en una ruta para escapar un rato del frío. Dale un vistazo a lo que tengo en mente, a ver qué te parece.</p>
+            </div>
+
+            <div id="pane-tunja" class="content-pane" style="display:none">
+                <span class="tagline">Logística</span>
+                <h2>Salida de Tunja</h2>
+                <p class="desc">Podríamos salir temprano hacia Bogotá en un bus cómodo para evitar el tráfico y empezar el viaje relajados.</p>
+            </div>
+
+            <div id="pane-bogota" class="content-pane" style="display:none">
+                <span class="tagline">El Salto</span>
+                <h2>Vuelo a la Costa</h2>
+                <p class="desc">De Bogotá saltamos directo a Barranquilla. Es un vuelo corto de apenas una hora para llegar directo al calorcito.</p>
+            </div>
+
+            <div id="pane-baq" class="content-pane" style="display:none">
+                <span class="tagline">Diversión</span>
+                <h2>Barranquilla</h2>
+                <p class="desc">La idea es llegar a la "Puerta de Oro", ver el río y movernos hacia la costa. Brisa marina y buena comida.</p>
+                <button class="btn-reveal" onclick="toggle('det-baq')">¿Qué podríamos hacer?</button>
+                <div id="det-baq" class="detail-box">
+                    • <strong>Playa en Puerto Velero:</strong> Un día de sol relajado. El plan es desconectar del mundo un rato.<br><br>
+                    • <strong>Gran Malecón:</strong> Caminar un poco por la zona nueva junto al río Magdalena.<br><br>
+                    • <i>Oye, no olvides empacar un bikini; seguro te verás genial bajo el sol caribeño.</i>
+                </div>
+            </div>
+
+            <div id="pane-ctg" class="content-pane" style="display:none">
+                <span class="tagline">Cierre</span>
+                <h2>Cartagena</h2>
+                <p class="desc">Un par de días en la Heroica para rematar el viaje. Caminar, conocer y disfrutar del ambiente de la ciudad vieja.</p>
+                <button class="btn-reveal" onclick="toggle('det-ctg')">¿Qué podríamos hacer?</button>
+                <div id="det-ctg" class="detail-box">
+                    • <strong>Cena frente al mar:</strong> Hay un par de sitios increíbles para comer en las murallas.<br><br>
+                    • <strong>Castillo de San Felipe:</strong> Un poco de turismo histórico para conocer los túneles.<br><br>
+                    • <strong>Getsemaní:</strong> Salir a caminar por las calles de colores y tomar algo tranquilo.
+                </div>
+            </div>
+
+            <div class="footer-note">Deja que me encargue... tú solo di que sí.</div>
+        </div>
+    </div>
+
+    <script src="script.js">
+        
+    </script>
+</body>
+</html>
