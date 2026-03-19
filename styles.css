@@ -1,93 +1,111 @@
- @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Raleway:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Raleway:wght@300;400;600&display=swap');
 
-        :root {
-            --gold: #d4af37;
-            --navy: #0a192f;
-            --sand: #fdfaf6;
-            --blue: #0077b6;
-        }
+:root {
+    --gold: #d4af37;
+    --navy: #0a192f;
+    --sand: #fdfaf6;
+}
 
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Raleway', sans-serif; background: var(--navy); overflow: hidden; display: flex; justify-content: center; align-items: center; }
+* { box-sizing: border-box; }
 
-        /* --- INTRO --- */
-        #intro-overlay {
-            position: absolute; inset: 0; background: radial-gradient(circle, #1a3a5a 0%, #0a192f 100%);
-            z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;
-            transition: 0.8s ease;
-        }
-        #intro-overlay h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 30px; max-width: 650px; font-weight: 400; font-style: italic; padding: 0 20px; }
-        .btn-start { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 16px 45px; font-family: 'Raleway', sans-serif; cursor: pointer; letter-spacing: 2px; transition: 0.4s; text-transform: uppercase; }
-        .btn-start:hover { background: var(--gold); color: white; }
+body, html { 
+    margin: 0; padding: 0; 
+    background: var(--navy); 
+    font-family: 'Raleway', sans-serif;
+    color: var(--navy);
+}
 
-        /* --- MAIN APP --- */
-        #app-window {
-            display: flex; width: 1050px; height: 650px; background: var(--sand); border-radius: 4px; opacity: 0; transition: 1.2s; position: relative;
-        }
+/* --- APP WINDOW (CONTENEDOR) --- */
+#app-window {
+    display: flex;
+    flex-direction: column; /* Apilado para móvil */
+    width: 100%;
+    max-width: 500px; /* Ancho de un móvil estándar */
+    margin: 0 auto;
+    background: var(--sand);
+    min-height: 100vh;
+    position: relative;
+}
 
-        #map-side { flex: 1.3; position: relative; background: white; border-right: 1px solid #eee; }
-        
-        /* Contenedor SVG y Nodos - Sincronizado */
-        #map-canvas { position: absolute; width: 500px; height: 550px; top: 50px; left: 50px; }
+/* --- SECCIÓN DEL MAPA --- */
+#map-side {
+    width: 100%;
+    height: 350px; /* Espacio fijo para el mapa */
+    background: white;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
 
-        svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-        .route-path { fill: none; stroke: var(--gold); stroke-width: 2; stroke-dasharray: 6; opacity: 0.3; }
+/* El Canvas ahora es elástico */
+#map-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
 
-        .dot {
-            position: absolute; width: 14px; height: 14px; background: var(--navy); border: 2px solid var(--gold); border-radius: 50%;
-            z-index: 10; transform: translate(-50%, -50%); cursor: pointer; transition: 0.3s;
-        }
-        .dot:hover { background: var(--blue); transform: translate(-50%, -50%) scale(1.3); }
-        .label { position: absolute; font-family: 'Playfair Display', serif; font-size: 13px; color: var(--navy); transform: translate(-50%, 18px); white-space: nowrap; font-weight: bold; }
+svg { width: 100%; height: 100%; }
 
-        /* Coordenadas en PX sobre el canvas de 500x550 */
-        #tunja { top: 60px; left: 300px; }
-        #bogota { top: 180px; left: 280px; }
-        #baq { top: 400px; left: 350px; }
-        #ctg { top: 480px; left: 150px; }
+/* COORDENADAS EN % (Para que nunca se muevan de su sitio) */
+.dot {
+    position: absolute; width: 12px; height: 12px;
+    background: var(--navy); border: 2px solid var(--gold);
+    border-radius: 50%; z-index: 10; transform: translate(-50%, -50%);
+}
 
-        .vehicle { position: absolute; width: 35px; height: 35px; display: none; z-index: 20; offset-rotate: auto 90deg; }
+#tunja { top: 15%; left: 80%; }
+#bogota { top: 40%; left: 75%; }
+#baq { top: 70%; left: 85%; }
+#ctg { top: 85%; left: 50%; }
 
-        /* --- INFO SIDE --- */
-        #info-side { flex: 1; padding: 50px; display: flex; flex-direction: column; background: white; border-radius: 0 4px 4px 0; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); margin: 0 0 15px 0; }
-        .tagline { color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
-        .desc { font-size: 0.95rem; line-height: 1.7; color: #555; margin-bottom: 25px; }
-        
-        .btn-reveal { background: var(--navy); color: white; border: none; padding: 15px; cursor: pointer; font-family: 'Raleway', sans-serif; letter-spacing: 1px; transition: 0.3s; width: 100%; }
-        .btn-reveal:hover { background: var(--gold); }
-        
-        .detail-box { 
-            display: none; margin-top: 15px; padding: 20px; background: #fdfaf6; border-left: 2px solid var(--gold); 
-            font-size: 0.9rem; color: #555; animation: fadeIn 0.5s; line-height: 1.6;
-        }
+.label {
+    position: absolute; font-family: 'Playfair Display', serif;
+    font-size: 12px; font-weight: bold; transform: translate(-50%, 15px);
+}
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .moving { display: block; animation: journey 2.5s linear forwards; }
-        @keyframes journey { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+/* --- SECCIÓN DE TEXTO --- */
+#info-side {
+    padding: 30px 25px;
+    background: white;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-        .footer-note { margin-top: auto; font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold); text-align: center; border-top: 1px solid #eee; padding-top: 20px; font-size: 1rem;}
+.tagline { 
+    color: var(--gold); text-transform: uppercase; 
+    font-size: 0.7rem; letter-spacing: 3px; font-weight: 600; 
+}
 
-        @media (max-width: 768px) {
-            #app-window {
-                flex-direction: column; /* Mapa arriba, Info abajo */
-                height: auto; min-height: 100vh; width: 100%; margin: 0; border-radius: 0;
-            }
-        
-            #map-side {
-                width: 100%; height: 450px; /* Altura fija para el mapa en móvil */
-                border-right: none; border-bottom: 1px solid #eee;
-            }
-        
-            #info-side {
-                width: 100%; padding: 30px 20px; border-radius: 0;
-            }
-        
-            #map-canvas {
-                width: 90%; height: 90%;
-            }
-        
-            h2 { font-size: 1.5rem; }
-            
-            /* Ajuste de etiquetas para que no se corten en pantallas pequeñas */
-            .label { font-size: 11px; }
-        }
+h2 { 
+    font-family: 'Playfair Display', serif; font-size: 1.8rem; 
+    margin: 10px 0; color: var(--navy); 
+}
+
+.desc { 
+    font-size: 0.95rem; line-height: 1.6; color: #555; 
+    margin-bottom: 20px; 
+}
+
+.btn-reveal {
+    background: var(--navy); color: white; border: none;
+    padding: 16px; width: 100%; font-family: 'Raleway', sans-serif;
+    font-weight: 600; letter-spacing: 1px; cursor: pointer;
+}
+
+.detail-box {
+    margin-top: 15px; padding: 15px; background: var(--sand);
+    border-left: 2px solid var(--gold); font-size: 0.9rem;
+    line-height: 1.5; font-style: italic; display: none;
+}
+
+.footer-note {
+    margin-top: auto; padding: 30px 0 10px;
+    text-align: center; font-family: 'Playfair Display', serif;
+    font-style: italic; color: var(--gold); font-size: 0.95rem;
+}
+
+/* --- AJUSTE DE VEHÍCULOS --- */
+.vehicle { width: 30px; height: 30px; position: absolute; z-index: 20; display: none; }
