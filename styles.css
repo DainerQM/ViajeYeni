@@ -1,0 +1,68 @@
+ @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700&family=Raleway:wght@300;400;600&display=swap');
+
+        :root {
+            --gold: #d4af37;
+            --navy: #0a192f;
+            --sand: #fdfaf6;
+            --blue: #0077b6;
+        }
+
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Raleway', sans-serif; background: var(--navy); overflow: hidden; display: flex; justify-content: center; align-items: center; }
+
+        /* --- INTRO --- */
+        #intro-overlay {
+            position: absolute; inset: 0; background: radial-gradient(circle, #1a3a5a 0%, #0a192f 100%);
+            z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;
+            transition: 0.8s ease;
+        }
+        #intro-overlay h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 30px; max-width: 650px; font-weight: 400; font-style: italic; padding: 0 20px; }
+        .btn-start { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 16px 45px; font-family: 'Raleway', sans-serif; cursor: pointer; letter-spacing: 2px; transition: 0.4s; text-transform: uppercase; }
+        .btn-start:hover { background: var(--gold); color: white; }
+
+        /* --- MAIN APP --- */
+        #app-window {
+            display: flex; width: 1050px; height: 650px; background: var(--sand); border-radius: 4px; opacity: 0; transition: 1.2s; position: relative;
+        }
+
+        #map-side { flex: 1.3; position: relative; background: white; border-right: 1px solid #eee; }
+        
+        /* Contenedor SVG y Nodos - Sincronizado */
+        #map-canvas { position: absolute; width: 500px; height: 550px; top: 50px; left: 50px; }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .route-path { fill: none; stroke: var(--gold); stroke-width: 2; stroke-dasharray: 6; opacity: 0.3; }
+
+        .dot {
+            position: absolute; width: 14px; height: 14px; background: var(--navy); border: 2px solid var(--gold); border-radius: 50%;
+            z-index: 10; transform: translate(-50%, -50%); cursor: pointer; transition: 0.3s;
+        }
+        .dot:hover { background: var(--blue); transform: translate(-50%, -50%) scale(1.3); }
+        .label { position: absolute; font-family: 'Playfair Display', serif; font-size: 13px; color: var(--navy); transform: translate(-50%, 18px); white-space: nowrap; font-weight: bold; }
+
+        /* Coordenadas en PX sobre el canvas de 500x550 */
+        #tunja { top: 60px; left: 300px; }
+        #bogota { top: 180px; left: 280px; }
+        #baq { top: 400px; left: 350px; }
+        #ctg { top: 480px; left: 150px; }
+
+        .vehicle { position: absolute; width: 35px; height: 35px; display: none; z-index: 20; offset-rotate: auto 90deg; }
+
+        /* --- INFO SIDE --- */
+        #info-side { flex: 1; padding: 50px; display: flex; flex-direction: column; background: white; border-radius: 0 4px 4px 0; }
+        h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); margin: 0 0 15px 0; }
+        .tagline { color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 3px; font-weight: 600; margin-bottom: 5px; }
+        .desc { font-size: 0.95rem; line-height: 1.7; color: #555; margin-bottom: 25px; }
+        
+        .btn-reveal { background: var(--navy); color: white; border: none; padding: 15px; cursor: pointer; font-family: 'Raleway', sans-serif; letter-spacing: 1px; transition: 0.3s; width: 100%; }
+        .btn-reveal:hover { background: var(--gold); }
+        
+        .detail-box { 
+            display: none; margin-top: 15px; padding: 20px; background: #fdfaf6; border-left: 2px solid var(--gold); 
+            font-size: 0.9rem; color: #555; animation: fadeIn 0.5s; line-height: 1.6;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .moving { display: block; animation: journey 2.5s linear forwards; }
+        @keyframes journey { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+        .footer-note { margin-top: auto; font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold); text-align: center; border-top: 1px solid #eee; padding-top: 20px; font-size: 1rem; }
